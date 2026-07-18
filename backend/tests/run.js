@@ -21,9 +21,23 @@ try {
 }
 // Ensure Wrangler has variables bound in Miniflare (Wrangler reads .dev.vars file)
 const devVarsPath = path.join(backendDir, '.dev.vars');
+let originalDevVars = null;
 const hasExistingDevVars = fs.existsSync(devVarsPath);
 
-if (!hasExistingDevVars) {
+if (hasExistingDevVars) {
+  try {
+    originalDevVars = fs.readFileSync(devVarsPath, 'utf8');
+    if (!originalDevVars.includes('STRIPE_WEBHOOK_SECRET')) {
+      const updated = originalDevVars + '\nSTRIPE_WEBHOOK_SECRET="whsec_b0436f8c697e3202c5071498c95e681a758fa42e6f5526ab3b5b21e74e3c4c04"\n';
+      fs.writeFileSync(devVarsPath, updated);
+      console.log('[Setup] Appended STRIPE_WEBHOOK_SECRET to existing .dev.vars for testing.');
+    } else {
+      console.log('[Setup] Existing .dev.vars already contains STRIPE_WEBHOOK_SECRET.');
+    }
+  } catch (err) {
+    console.warn('[Setup Warning] Failed to handle existing .dev.vars:', err.message);
+  }
+} else {
   try {
     fs.writeFileSync(devVarsPath, 'ENVIRONMENT="development"\nSTRIPE_WEBHOOK_SECRET="whsec_b0436f8c697e3202c5071498c95e681a758fa42e6f5526ab3b5b21e74e3c4c04"\n');
     console.log('[Setup] Created temporary .dev.vars for CI testing.');
@@ -78,13 +92,24 @@ function runTests() {
     console.log('Stopping Wrangler server processes...');
     wrangler.kill();
 
-    // Clean up temporary .dev.vars
-    if (!hasExistingDevVars && fs.existsSync(devVarsPath)) {
-      try {
-        fs.unlinkSync(devVarsPath);
-        console.log('[Setup] Cleaned up temporary .dev.vars.');
-      } catch (err) {
-        console.warn('[Setup Warning] Failed to remove temporary .dev.vars:', err.message);
+    // Restore or clean up .dev.vars
+    if (hasExistingDevVars) {
+      if (originalDevVars !== null) {
+        try {
+          fs.writeFileSync(devVarsPath, originalDevVars);
+          console.log('[Setup] Restored original .dev.vars.');
+        } catch (err) {
+          console.warn('[Setup Warning] Failed to restore original .dev.vars:', err.message);
+        }
+      }
+    } else {
+      if (fs.existsSync(devVarsPath)) {
+        try {
+          fs.unlinkSync(devVarsPath);
+          console.log('[Setup] Cleaned up temporary .dev.vars.');
+        } catch (err) {
+          console.warn('[Setup Warning] Failed to remove temporary .dev.vars:', err.message);
+        }
       }
     }
     process.exit(code);
