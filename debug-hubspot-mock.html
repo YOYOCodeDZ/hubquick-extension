@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hubquick - HubSpot Deals Mock Page (Dev Testing)</title>
+  <style>
+    :root {
+      --hubspot-orange: #ff7a59;
+      --hubspot-blue: #0091ae;
+      --hubspot-navy: #2d3e50;
+      --hubspot-charcoal: #33475b;
+      --hubspot-gray: #f5f8fa;
+      --border-color: #cbd6e2;
+    }
+    
+    body {
+      font-family: "Avenir Next", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--hubspot-gray);
+      color: var(--hubspot-charcoal);
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: var(--hubspot-navy);
+      color: white;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .navbar-logo {
+      font-weight: 700;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .navbar-logo span {
+      background-color: var(--hubspot-orange);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .main-layout {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 20px;
+    }
+
+    .deal-header-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .deal-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .deal-status-badge {
+      background-color: #eaf0f6;
+      color: #506e8e;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+
+    /* HubSpot Mock Line Items Card Selector */
+    .line-items-card-wrapper {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      border-bottom: 2px solid var(--hubspot-gray);
+      padding-bottom: 12px;
+    }
+
+    .card-title-text {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    /* Simulated table styles */
+    .line-items-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .line-items-table th {
+      color: #506e8e;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 12px 8px;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .line-items-table tr {
+      border-bottom: 1px solid #eaf0f6;
+      transition: background-color 0.2s;
+    }
+
+    .line-items-table tr:hover {
+      background-color: #f8fafc;
+    }
+
+    .line-items-table td {
+      padding: 14px 8px;
+      font-size: 14px;
+    }
+
+    .product-name-link {
+      color: var(--hubspot-blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .product-name-link:hover {
+      text-decoration: underline;
+    }
+
+    .sidebar-widget {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #eaf0f6;
+      padding-bottom: 8px;
+    }
+
+    /* Instruction overlay styles */
+    .dev-instructions {
+      background: #eef9fc;
+      border-left: 4px solid var(--hubspot-blue);
+      padding: 16px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 24px;
+    }
+
+    .dev-instructions h4 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      color: #00687f;
+    }
+
+    .dev-instructions ol {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mock HubSpot Header Navigation -->
+  <div class="navbar">
+    <div class="navbar-logo">
+      <span>HubSpot</span> Deal Portal (Mock)
+    </div>
+    <div style="font-size: 14px; color: #cbd6e2;">Logged in as: Sales Manager</div>
+  </div>
+
+  <div class="main-layout">
+    
+    <!-- Main Content Panel -->
+    <div>
+      
+      <!-- Simulated Instructions Alert -->
+      <div class="dev-instructions">
+        <h4>⚡ Hubquick Chrome Extension Development Guide</h4>
+        <ol>
+          <li>Ensure you have loaded this directory unpacked into <strong>chrome://extensions/</strong></li>
+          <li>Ensure you are serving this page via a local web server (e.g. <code>npx serve</code>, Live Server, or Python HTTP Server) so it resolves as <strong>http://localhost:...</strong> or <strong>http://127.0.0.1:...</strong></li>
+          <li>Once loaded on localhost, the Hubquick content script will inject the <strong>floating glassmorphic panel</strong> right above the "Line items" card below!</li>
+          <li>Open the Extension Popup from your toolbar to create sort profiles, reset selectors, and watch them update live.</li>
+        </ol>
+      </div>
+
+      <!-- Simulated Deal Summary Header -->
+      <div class="deal-header-card">
+        <h1 class="deal-title">
+          Acme Corp - Enterprise Upgrade Deal
+          <span class="deal-status-badge">Contract Sent</span>
+        </h1>
+        <div style="display: flex; gap: 20px; font-size: 13px; color: #506e8e; margin-top: 8px;">
+          <div><strong>Close Date:</strong> 2026-08-31</div>
+          <div><strong>Amount:</strong> $9,470.00</div>
+          <div><strong>Owner:</strong> John Doe</div>
+        </div>
+      </div>
+
+      <!-- HubSpot Line Items Section. Target Container of Content Script -->
+      <!-- Matches selectors: [data-selenium-test="line-items-card"] -->
+      <div class="line-items-card-wrapper" data-selenium-test="line-items-card">
+        
+        <div class="card-header-row">
+          <h2 class="card-title-text">Line items (5 items)</h2>
+          <button style="background: none; border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 3px; font-size: 12px; cursor: pointer;">Add line item</button>
+        </div>
+
+        <table class="line-items-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Unit Price</th>
+              <th>Quantity</th>
+              <th>Total Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Row 1 -->
+            <tr class="line-item-row" data-id="li_101">
+              <td>📦</td>
+              <td><a href="/product/crm-suite-ent" class="product-name-link">HubSpot CRM Suite Enterprise</a></td>
+              <td class="price-cell">$1,200.00</td>
+              <td class="quantity-cell">1</td>
+              <td>$1,200.00</td>
+            </tr>
+            <!-- Row 2 -->
+            <tr class="line-item-row" data-id="li_102">
+              <td>📦</td>
+              <td><a href="/product/custom-int" class="product-name-link">Custom Integration Service</a></td>
+              <td class="price-cell">$5,000.00</td>
+              <td class="quantity-cell">1</td>
+              <td>$5,000.00</td>
+            </tr>
+            <!-- Row 3 -->
+            <tr class="line-item-row" data-id="li_103">
+              <td>📦</td>
+              <td><a href="/product/sales-prof-seats" class="product-name-link">Sales Hub Professional Seats</a></td>
+              <td class="price-cell">$90.00</td>
+              <td class="quantity-cell">5</td>
+              <td>$450.00</td>
+            </tr>
+            <!-- Row 4 -->
+            <tr class="line-item-row" data-id="li_104">
+              <td>📦</td>
+              <td><a href="/product/mktg-onboard" class="product-name-link">Marketing Onboarding Package</a></td>
+              <td class="price-cell">$3,000.00</td>
+              <td class="quantity-cell">1</td>
+              <td>$3,000.00</td>
+            </tr>
+            <!-- Row 5 -->
+            <tr class="line-item-row" data-id="li_105">
+              <td>📦</td>
+              <td><a href="/product/ops-starter" class="product-name-link">Operations Hub Starter</a></td>
+              <td class="price-cell">$20.00</td>
+              <td class="quantity-cell">10</td>
+              <td>$200.00</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+    <!-- Sidebar Info Panel -->
+    <div>
+      <div class="sidebar-widget">
+        <h3 class="sidebar-title">About Deal</h3>
+        <div style="font-size: 13px; line-height: 1.6;">
+          <p><strong>Company:</strong> Acme Corporation</p>
+          <p><strong>Primary Contact:</strong> Wile E. Coyote</p>
+          <p><strong>Associated Contacts:</strong> 3 contacts</p>
+        </div>
+      </div>
+      
+      <div class="sidebar-widget">
+        <h3 class="sidebar-title">Deal Tracker</h3>
+        <div style="font-size: 13px; line-height: 1.6;">
+          <div style="color: var(--hubspot-blue); font-weight: 500;">✓ Deal Created</div>
+          <div style="color: var(--hubspot-blue); font-weight: 500;">✓ Line Items Synced</div>
+          <div style="font-weight: 500;">⚡ Ready for Hubquick Sort</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

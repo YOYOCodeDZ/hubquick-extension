@@ -1,0 +1,19 @@
+{
+  "name": "hubquick-backend",
+  "version": "1.0.0",
+  "description": "Serverless license server and webhook handler for Hubquick",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "node tests/run.js"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240405.0",
+    "typescript": "^5.4.0",
+    "wrangler": "^3.50.0"
+  },
+  "dependencies": {
+    "stripe": "^22.3.2"
+  }
+}

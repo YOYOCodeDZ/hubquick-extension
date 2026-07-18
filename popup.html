@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hubquick Control Panel</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="hubquick-popup-body">
+  <div class="popup-container">
+    
+    <!-- Extension Header -->
+    <header class="popup-header">
+      <div class="brand-wrapper">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <span class="brand-name">Hubquick</span>
+          <div style="font-size: 10px; color: var(--text-muted); margin-top: -2px;">HubSpot Line Items Helper</div>
+        </div>
+      </div>
+      <span class="badge-v3">MV3</span>
+    </header>
+
+    <!-- Unlocked State View -->
+    <div id="unlocked-view" style="display: flex; flex-direction: column; gap: 4px;">
+      <!-- Active Profile selection -->
+      <section class="glass-card">
+        <h3 class="card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary-solid)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          Active Sort Profile
+        </h3>
+        <div class="form-group">
+          <label for="active-profile-select">Current Profile</label>
+          <select id="active-profile-select">
+            <!-- Populated from storage -->
+          </select>
+        </div>
+      </section>
+
+      <!-- Custom Sort Profiles List -->
+      <section class="glass-card">
+        <h3 class="card-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary-solid)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+          Manage Profiles
+        </h3>
+        
+        <div id="profiles-list" style="margin-bottom: 12px; max-height: 120px; overflow-y: auto;">
+          <!-- Rows populated from storage -->
+        </div>
+        
+        <!-- Add Profile form -->
+        <details style="margin-top: 8px;">
+          <summary style="font-size: 12px; cursor: pointer; color: var(--primary-solid); font-weight: 500; outline: none; margin-bottom: 8px;">
+            + Create Custom Profile
+          </summary>
+          <div style="padding-top: 8px; border-top: 1px solid var(--border-glass); display: flex; flex-direction: column; gap: 8px;">
+            <div class="form-group">
+              <label for="new-profile-name">Profile Name</label>
+              <input type="text" id="new-profile-name" placeholder="e.g. Price Ascending">
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <div class="form-group" style="flex: 1;">
+                <label for="new-profile-sortby">Sort By</label>
+                <select id="new-profile-sortby">
+                  <option value="price">Unit Price</option>
+                  <option value="name">Product Name</option>
+                  <option value="quantity">Quantity</option>
+                </select>
+              </div>
+              <div class="form-group" style="flex: 1;">
+                <label for="new-profile-direction">Direction</label>
+                <select id="new-profile-direction">
+                  <option value="asc">Ascending</option>
+                  <option value="desc">Descending</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn-primary" id="btn-add-profile" style="padding: 8px; font-size: 12px;">Save Profile</button>
+          </div>
+        </details>
+      </section>
+
+      <!-- HTML Selector configurations -->
+      <section class="glass-card">
+        <details>
+          <summary style="font-size: 13px; font-weight: 600; cursor: pointer; color: var(--text-primary); outline: none; display: flex; align-items: center; gap: 8px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            Advanced Selectors
+          </summary>
+          <div style="padding-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+            <div class="form-group">
+              <label for="selector-card">Card Container</label>
+              <input type="text" id="selector-card">
+            </div>
+            <div class="form-group">
+              <label for="selector-row">Table Row</label>
+              <input type="text" id="selector-row">
+            </div>
+            <div class="form-group">
+              <label for="selector-name">Product Name Cell</label>
+              <input type="text" id="selector-name">
+            </div>
+            <div class="form-group">
+              <label for="selector-price">Price Cell</label>
+              <input type="text" id="selector-price">
+            </div>
+            <div class="form-group">
+              <label for="selector-qty">Quantity Cell</label>
+              <input type="text" id="selector-qty">
+            </div>
+            <div style="display: flex; gap: 8px; margin-top: 4px;">
+              <button class="btn-primary" id="btn-save-selectors" style="flex: 1; padding: 6px; font-size: 11px;">Save Settings</button>
+              <button class="btn-secondary" id="btn-reset-selectors" style="flex: 1; padding: 6px; font-size: 11px;">Defaults</button>
+            </div>
+          </div>
+        </details>
+      </section>
+    </div>
+
+    <!-- Locked State View -->
+    <div id="locked-view" class="glass-card">
+      <div class="lock-badge">🔒</div>
+      <h3 class="lock-title" style="margin: 8px 0;">Trial Expired</h3>
+      <p class="lock-desc" style="margin-bottom: 12px;">
+        Your 7-day free trial of Hubquick has expired. Paste a valid license key below or buy a subscription to continue.
+      </p>
+      <div class="form-group" style="text-align: left;">
+        <label for="popup-license-input">License Key</label>
+        <input type="text" id="popup-license-input" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+      </div>
+      <button class="btn-primary" id="btn-activate-license" style="margin-bottom: 10px;">Activate License</button>
+      <a href="https://buy.stripe.com/mock_hubquick_checkout" target="_blank" class="btn-primary" style="background: linear-gradient(135deg, #ef4444, #f59e0b) !important;">
+        Purchase License
+      </a>
+    </div>
+
+    <!-- Footer Status info -->
+    <footer style="margin-top: auto; text-align: center; font-size: 11px; color: var(--text-muted); display: flex; flex-direction: column; gap: 4px;">
+      <div>Synced to chrome storage local cache.</div>
+      <div id="sync-status" style="color: var(--success); font-weight: 500; min-height: 14px;">Ready</div>
+    </footer>
+    
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

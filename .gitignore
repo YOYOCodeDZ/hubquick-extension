@@ -1,0 +1,23 @@
+# Local secrets containing Stripe and Supabase keys
+.dev.vars
+.env
+*.env
+secrets.json
+
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Wrangler build artifacts and cache
+.wrangler/
+dist/
+.dev.vars.tmp
+
+# Package archives
+*.zip
+
+# Local OS files
+.DS_Store
+Thumbs.db
