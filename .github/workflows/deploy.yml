@@ -47,6 +47,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Inject Production API URL
+        run: |
+          # Determine the production API URL (falls back to your yoyocodedz subdomain)
+          API_URL="${{ vars.PRODUCTION_API_URL || 'https://hubquick-backend.yoyocodedz.workers.dev' }}"
+          echo "Injecting production API URL: $API_URL"
+          
+          # Replace the local dev API URL in content.js and popup.js
+          sed -i "s|const API_BASE_URL = 'http://127.0.0.1:8787';|const API_BASE_URL = '$API_URL';|g" content.js
+          sed -i "s|const API_BASE_URL = 'http://127.0.0.1:8787';|const API_BASE_URL = '$API_URL';|g" popup.js
+
       - name: Create Production Bundle Zip
         run: |
           # Ensure placeholder files exist for icons in CI to prevent zip errors if assets are missing
