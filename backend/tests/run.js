@@ -21,9 +21,14 @@ try {
 }
 
 console.log('Booting Wrangler local worker server...');
+const testEnv = {
+  ...process.env,
+  STRIPE_WEBHOOK_SECRET: 'whsec_b0436f8c697e3202c5071498c95e681a758fa42e6f5526ab3b5b21e74e3c4c04'
+};
 const wrangler = spawn('npx', ['wrangler', 'dev', '--port', '8787'], {
   cwd: backendDir,
   shell: true,
+  env: testEnv,
   stdio: ['ignore', 'pipe', 'pipe']
 });
 
