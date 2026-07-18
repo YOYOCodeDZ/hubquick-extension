@@ -59,9 +59,6 @@ jobs:
 
       - name: Create Production Bundle Zip
         run: |
-          # Ensure placeholder files exist for icons in CI to prevent zip errors if assets are missing
-          touch icon16.png icon48.png icon128.png
-          
           # Zip the required extension assets for Web Store upload
           zip -r hubquick-extension.zip \
             manifest.json \
