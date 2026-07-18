@@ -7,5 +7,7 @@ compatibility_date = "2024-04-05"
 # Environment variables bindings
 [vars]
 ENVIRONMENT = "development"
+# Default test Stripe webhook secret (overridden in production by wrangler secrets)
+STRIPE_WEBHOOK_SECRET = "whsec_b0436f8c697e3202c5071498c95e681a758fa42e6f5526ab3b5b21e74e3c4c04"
 # In production, STRIPE_WEBHOOK_SECRET and SUPABASE_URL should be added as secret bindings
 # via command line: wrangler secret put <SECRET_NAME>
