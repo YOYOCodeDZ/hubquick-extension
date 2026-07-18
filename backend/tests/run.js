@@ -19,16 +19,23 @@ try {
 } catch (err) {
   console.warn('[Setup Warning] Failed to create Wrangler registry directory:', err.message);
 }
+// Ensure Wrangler has variables bound in Miniflare (Wrangler reads .dev.vars file)
+const devVarsPath = path.join(backendDir, '.dev.vars');
+const hasExistingDevVars = fs.existsSync(devVarsPath);
+
+if (!hasExistingDevVars) {
+  try {
+    fs.writeFileSync(devVarsPath, 'ENVIRONMENT="development"\nSTRIPE_WEBHOOK_SECRET="whsec_b0436f8c697e3202c5071498c95e681a758fa42e6f5526ab3b5b21e74e3c4c04"\n');
+    console.log('[Setup] Created temporary .dev.vars for CI testing.');
+  } catch (err) {
+    console.warn('[Setup Warning] Failed to create temporary .dev.vars:', err.message);
+  }
+}
 
 console.log('Booting Wrangler local worker server...');
-const testEnv = {
-  ...process.env,
-  STRIPE_WEBHOOK_SECRET: 'whsec_b0436f8c697e3202c5071498c95e681a758fa42e6f5526ab3b5b21e74e3c4c04'
-};
 const wrangler = spawn('npx', ['wrangler', 'dev', '--port', '8787'], {
   cwd: backendDir,
   shell: true,
-  env: testEnv,
   stdio: ['ignore', 'pipe', 'pipe']
 });
 
@@ -70,6 +77,16 @@ function runTests() {
     console.log(`\nTest suite finished execution with exit code: ${code}`);
     console.log('Stopping Wrangler server processes...');
     wrangler.kill();
+
+    // Clean up temporary .dev.vars
+    if (!hasExistingDevVars && fs.existsSync(devVarsPath)) {
+      try {
+        fs.unlinkSync(devVarsPath);
+        console.log('[Setup] Cleaned up temporary .dev.vars.');
+      } catch (err) {
+        console.warn('[Setup Warning] Failed to remove temporary .dev.vars:', err.message);
+      }
+    }
     process.exit(code);
   });
 }
